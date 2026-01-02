@@ -24,7 +24,10 @@
   },
   "scripts": {
     "start": "node src/app.js",
-    "dev": "nodemon src/app.js"
+    "dev": "nodemon src/app.js",
+    "db:up": "docker-compose up -d mysql",
+    "db:down": "docker-compose down mysql",
+    "db:stop": "docker-compose stop mysql"
   },
   "author": "",
   "license": "ISC"
