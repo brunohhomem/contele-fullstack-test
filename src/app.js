@@ -26,7 +26,7 @@ app.use(
     origin: (origin, callback) => {
       if (!origin) return callback(null, true)
 
-      if (!whitelist.includes(origin)) return callback(null, true)
+      if (whitelist.includes(origin)) return callback(null, true)
 
       return callback(null, false)
     }
