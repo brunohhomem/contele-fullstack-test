@@ -1,40 +1,30 @@
 const {
-    getTransaction,
-    commitTransaction,
-    rollbackTransaction
+  getTransaction,
+  commitTransaction,
+  rollbackTransaction
 } = require('../../../common/handlers')
 
+const createUserRepositories = async ({ user } = {}) => {
+  const { transaction } = await getTransaction()
 
-const createUserRepositories = async ({
-    user
-} = {}) => {
-    const { transaction } = await getTransaction();
+  try {
+    const [user_id] = await transaction('users').insert(user)
 
-    try {
-        const {
-            user_created
-        } = await transaction('users').insert(user)
-        
-        const has_response = Array.isArray(user_created) && user_created.length > 0;
-
-        if (!has_response) {
-            return {
-                user_created: []
-            }
-        }
-
-        await commitTransaction({transaction})
-
-        return {
-            user_created
-        }
-
-    } catch (err) {
-        rollbackTransaction({transaction})
-        throw new Error(err)
+    if (!user_id) {
+      throw new Error('User registration failed.')
     }
+
+    await commitTransaction({ transaction })
+
+    return {
+      user_id
+    }
+  } catch (err) {
+    rollbackTransaction({ transaction })
+    throw new Error(err)
+  }
 }
 
 module.exports = {
-    createUserRepositories
+  createUserRepositories
 }
