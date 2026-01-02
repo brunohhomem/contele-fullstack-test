@@ -2,9 +2,9 @@ const {
   getTransaction,
   commitTransaction,
   rollbackTransaction
-} = require('../../../common/handlers')
+} = require('../../common/handlers')
 
-const createUserRepositories = async ({ user } = {}) => {
+const createUserRepository = async ({ user } = {}) => {
   const { transaction } = await getTransaction()
 
   try {
@@ -26,5 +26,5 @@ const createUserRepositories = async ({ user } = {}) => {
 }
 
 module.exports = {
-  createUserRepositories
+  createUserRepository
 }
