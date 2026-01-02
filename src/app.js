@@ -17,17 +17,18 @@ if (!port || Number.isNaN(port)) {
 
 const app = express()
 
-const whitelist = [
-  // TODO whitelist
-]
+const whitelist = process.env.CORS_ORIGINS
+  ? process.env.CORS_ORIGINS.split(',').map(o => o.trim())
+  : []
 
 app.use(
   cors({
-    origin: function (origin, callback) {
-      const allowed = whitelist.indexOf(origin) !== -1
-      if (allowed) return callback(null, true)
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true)
 
-      callback(new Error('Not allowed by CORS'))
+      if (!whitelist.includes(origin)) return callback(null, true)
+
+      return callback(null, false)
     }
   })
 )
