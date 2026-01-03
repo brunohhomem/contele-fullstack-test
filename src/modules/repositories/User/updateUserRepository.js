@@ -13,11 +13,13 @@ const updateUserRepository = async ({
   const { transaction } = await getTransaction()
 
   try {
-    await transaction('users').update({
-      user_email,
-      user_password,
-      full_name
-    })
+    await transaction('users')
+      .update({
+        user_email,
+        user_password,
+        full_name
+      })
+      .where({ id })
 
     await commitTransaction({ transaction })
   } catch (err) {
