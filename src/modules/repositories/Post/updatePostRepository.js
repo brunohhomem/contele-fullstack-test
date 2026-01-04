@@ -1,22 +1,11 @@
-const {
-  getTransaction,
-  commitTransaction,
-  rollbackTransaction
-} = require('../../common/handlers')
+const { client } = require('../../common/handlers')
 
 const updatePostRepository = async ({ id, author_id, post_text }) => {
-  const { transaction } = await getTransaction()
+  const affectedRows = await client('posts')
+    .where({ id, author_id })
+    .update({ post_text })
 
-  try {
-    await transaction('posts').where({ id }).update({
-      id,
-      author_id,
-      post_text
-    })
-  } catch (err) {
-    rollbackTransaction({ transaction })
-    throw new Error(err)
-  }
+  return affectedRows === 1
 }
 
 module.exports = {

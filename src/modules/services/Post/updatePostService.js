@@ -1,27 +1,27 @@
 const {
-  getPostByPostIdRepositories,
-  updatePostRepositories
+  getPostByPostIdRepository,
+  updatePostRepository
 } = require('../../repositories')
 
 const updatePostService = async ({ id, author_id, post_text }) => {
-  const { posts = [] } = await getPostByPostIdRepositories({
-    post_id: id
-  })
+  const { post } = await getPostByPostIdRepository({ post_id: id })
 
-  const has_post = Array.isArray(posts) && posts.length === 1
-
-  if (!has_post) {
+  if (!post) {
     throw new Error("Hasn't post to update")
   }
 
-  await updatePostRepositories({
+  if (post.author_id !== author_id) {
+    throw new Error('Author not allowed to update this post')
+  }
+
+  await updatePostRepository({
     id,
     author_id,
     post_text
   })
 
   return {
-    updatedpost: {
+    updatedPost: {
       id,
       author_id,
       post_text
