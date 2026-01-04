@@ -1,20 +1,11 @@
-const {
-  getTransaction,
-  commitTransaction,
-  rollbackTransaction
-} = require('../../common/handlers')
+const { client } = require('../../common/handlers')
 
-const deletePostRepository = async post_id => {
-  const { transaction } = await getTransaction()
+const deletePostRepository = async ({ post_id }) => {
+  const affectedRows = await client('posts').where({ id: post_id }).del()
+}
 
-  try {
-    await transaction('posts').del()
-
-    await commitTransaction({ transaction })
-  } catch (err) {
-    rollbackTransaction({ transaction })
-    throw new Error(err)
-  }
+module.exports = {
+  deletePostRepository
 }
 
 module.exports = {
