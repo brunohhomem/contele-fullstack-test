@@ -1,24 +1,18 @@
 const { getUserByIdService } = require('../User/getUserByIdService')
-const { getPostByUserIdRepositories } = require('../../repositories')
+const { getPostByUserIdRepository } = require('../../repositories')
 
 const getPostByUserIdService = async ({ user_id }) => {
   const { user } = await getUserByIdService({
     user_id
   })
 
-  const has_author = Array.isArray(user) && user.length > 0
-
-  if (has_author === false) {
-    throw new Error('Missing author in database')
+  if (!user) {
+    throw new Error('Author not found.')
   }
 
-  const { posts = [] } = await getPostByUserIdRepositories({
-    user_id
-  })
+  const { posts = [] } = await getPostByUserIdRepository({ user_id })
 
-  return {
-    posts
-  }
+  return { posts }
 }
 
 module.exports = {
