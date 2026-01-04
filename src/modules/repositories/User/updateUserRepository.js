@@ -1,8 +1,4 @@
-const {
-  getTransaction,
-  commitTransaction,
-  rollbackTransaction
-} = require('../../common/handlers')
+const { client } = require('../../common/handlers')
 
 const updateUserRepository = async ({
   id,
@@ -10,22 +6,9 @@ const updateUserRepository = async ({
   user_password,
   full_name
 }) => {
-  const { transaction } = await getTransaction()
-
-  try {
-    await transaction('users')
-      .update({
-        user_email,
-        user_password,
-        full_name
-      })
-      .where({ id })
-
-    await commitTransaction({ transaction })
-  } catch (err) {
-    rollbackTransaction({ transaction })
-    throw new Error(err)
-  }
+  await client('users')
+    .where({ id })
+    .update({ user_email, user_password, full_name })
 }
 
 module.exports = {
