@@ -1,5 +1,6 @@
 module.exports = Object.freeze({
-  ...require('./User/getUserRepository'),
+  ...require('./User/getUserByIdRepository'),
+  ...require('./User/getUserByEmailRepository'),
   ...require('./User/getUsersRepository'),
   ...require('./User/createUserRepository'),
   ...require('./User/deleteUserRepository'),

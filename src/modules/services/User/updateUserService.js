@@ -1,7 +1,8 @@
 const bcrypt = require('bcryptjs')
 const salt = bcrypt.genSaltSync(10)
 const {
-  getUserRepository,
+  getUserByIdRepository,
+  getUserByEmailRepository,
   updateUserRepository
 } = require('../../repositories')
 
@@ -12,10 +13,20 @@ const updateUserService = async ({
   full_name
 }) => {
   const user_id = id
-  const user = await getUserRepository({ user_id })
+  const user = await getUserByIdRepository({ user_id })
 
   if (!user) {
     throw new Error('User not found.')
+  }
+
+  console.log(user_email, user.user_email)
+
+  if (user_email && user_email !== user.user_email) {
+    const email_exists = await getUserByEmailRepository(user_email)
+
+    if (email_exists) {
+      throw new Error('Email already in use')
+    }
   }
 
   await updateUserRepository({
