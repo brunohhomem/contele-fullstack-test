@@ -1,28 +1,31 @@
 'use strict'
-const httpStatusCodes = require('http-status-codes');
-const { httpErrorHandler } = require("../../common/handlers");
-const { updatePostService } = require('../../services');
+
+const httpStatusCodes = require('http-status-codes')
+const { httpErrorHandler } = require('../../common/handlers')
+const { updatePostService } = require('../../services')
 
 const updatePostHandler = async (req, res, next) => {
-    try{
-        const {
-            id,
-            author_id,
-            post_text
-        } = req.body
+  try {
+    const { id, author_id, post_text } = req.body
 
-        const updated_post = await updatePostService({
-            id,
-            author_id,
-            post_text
-        })
-
-        return res.status(httpStatusCodes.OK).send(updated_post);
-    }catch(error){
-        return httpErrorHandler({ req, res, error })
+    if (!id || !author_id || !post_text) {
+      return res.status(httpStatusCodes.BAD_REQUEST).send({
+        message: 'id, author_id and post_text are required'
+      })
     }
+
+    const updated_post = await updatePostService({
+      id,
+      author_id,
+      post_text
+    })
+
+    return res.status(httpStatusCodes.OK).send(updated_post)
+  } catch (error) {
+    return httpErrorHandler({ req, res, error })
+  }
 }
 
 module.exports = {
-    updatePostHandler
+  updatePostHandler
 }
