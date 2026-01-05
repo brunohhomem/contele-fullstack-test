@@ -1,78 +1,84 @@
 ## Descrição
 
-Esse teste consiste na validação e correção de uma aplicação, nele será avaliado a análise de problemas técnicos e a sua capacidade de soluciona-los da maneira mais objetiva possível.
+Este projeto é uma aplicação **fullstack** utilizada em um **teste técnico**, com o objetivo de corrigir problemas existentes, garantir o funcionamento correto da aplicação e manter a estabilidade da base de código fornecida.
 
-## Recomendações
+A aplicação consiste em uma **API backend** responsável pelo gerenciamento de usuários e posts, integrada a um banco de dados **MySQL**, permitindo operações básicas de criação, listagem, atualização e exclusão de dados.
 
-Para a resolução dessa API é desejável que o desenvolvedor conheça previamente as seguintes tecnologias, e caso não conheça acabe por aprender durante o teste.
+Durante o desenvolvimento, o foco principal foi:
 
-- Docker
-- Node.js
-- MySQL
-- Express
-- OpenAPI 2.0
+- Corrigir erros existentes
+- Garantir a correta comunicação com o banco de dados
+- Manter o comportamento esperado da aplicação
+- Respeitar o escopo solicitado no teste técnico, evitando refatorações extensas
 
-## Aplicação e Intuito
+Algumas melhorias pontuais foram aplicadas, mas evoluções maiores foram propositalmente **documentadas em vez de implementadas**.
 
-A aplicação consiste em alguns *Endpoints* de CRUD(*Create, Read, Update and Delete*), que tem como as suas entidades:
+---
 
-- Usuários
-- Postagens
+## 🛠 Tecnologias utilizadas
 
-Apesar de ser uma simples aplicação acaba por ter diversos problemas que encontramos em nosso dia a dia como desenvolvedores, assim sendo possível avaliar como você se sairia desenvolvendo tais habilidades para a resolução destes problemas.
+### Backend
+- **Node.js**
+- **JavaScript**
+- **Express**
+- **MySQL**
+- **Docker / Docker Compose**
 
-## Rodando a API
+### Infraestrutura
+- **Docker** para padronização do ambiente
+- Variáveis de ambiente via `.env`
 
-Para rodar a aplicação é necessário executar somente o comando:
+---
 
-```docker
-docker compose up --build
+## ▶️ Como executar o projeto
+
+### Pré-requisitos
+- **Docker**
+- **Docker Compose**
+
+### Passos para execução
+
+1. Clone o repositório:
+```bash
+git clone https://github.com/brunohhomem/contele-fullstack-test.git
+```
+2. Acesse o repositório
+```
+cd contele-fullstack-test
 ```
 
-Após essa execução a aplicação deverá estar sendo executada no endereço:
+3. Crie o arquivo `.env` a partir do `.env.example`
+(copiando o arquivo e renomeando para `.env`).
 
-```docker
+4. Executar a aplicação:
+```
+docker-compose up --build 
+```
+---
+
+## Acesso à aplicação
+
+Após a execução, a aplicação estará disponível em:
+
+```
 http://localhost:8081
 ```
 
-Para a consulta dos endereços e endpoints a serem consultados e corrigidos é disponibilizada a documentação da aplicação em:
+A documentação dos endpoints da API pode ser acessada em:
 
-```docker
+```
 http://localhost:8081/api/v1/docs
 ```
 
-## Efetuando o Teste
+---
+## Documentação adicional
 
-### Iniciando - Repositório
+### Melhorias e próximos passos
+Ideias técnicas e evoluções que poderiam ser aplicadas em um cenário real:  
+[NEXT_STEPS.md](./NEXT_STEPS.md)
 
-Para iniciar o teste é necessário clonar esse repositório e obtendo os arquivos com a aplicação, assim obtendo a pasta na qual se encontram todos os arquivos para a execução.
+### Instruções originais do teste
+Cópia do README original fornecido no teste técnico, mantido como referência:  
+[INSTRUCOES.md](./INSTRUCOES.md)
 
-Após a extração será necessário criar um repositório público no seu perfil pessoal com esta pasta, nomeando o primeiro commit como "Init Repo".
 
-Todas as alterações necessárias serão efetuadas no seu repositório.
-
-### Pull Requests
-
-Após efetuar as analises e encontrar uma problemática a sua solução deverá ser salva em uma branch a parte com o nome de:
-
-```docker
-test/[Número do Problema Encontrado]
-```
-
-Como exemplo, após ter resolvido 2 problemáticas e encontrado uma terceira, para a resolução deveremos criar a terceira branch a partir da branch principal com o nome de:
-
-```docker
-test/3
-```
-
-A partir dessa branch com a resolução é pedido que se crie um pull request para a branch principal.
-E que comente na descrição:
-1. a causa do problema, 
-2. o porquê a alteração foi feita daquela maneira
-3. como ela soluciona o problema encontrado.
-
-Após essa documentação da problemática é necessário que efetue o merge dessa pull request, inserindo as modificações no seu projeto.
-
-### Finalização
-
-Após validar que os problemas em sua grande parte foram solucionados, simplesmente é necessário contactar o responsável pelo processo seletivo e enviar o link do seu repositório.
