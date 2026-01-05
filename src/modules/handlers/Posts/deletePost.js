@@ -16,7 +16,7 @@ const deletePostHandler = async (req, res, next) => {
 
     await deletePostService({ post_id })
 
-    return res.status(httpStatusCodes.OK).send()
+    return res.status(httpStatusCodes.NO_CONTENT).send()
   } catch (error) {
     return httpErrorHandler({ req, res, error })
   }

@@ -11,14 +11,12 @@ const listUserHandler = async (req, res) => {
     const hasUserId = Number.isInteger(Number(user_id))
 
     if (hasUserId) {
-      const { user } = await getUserByIdService({ user_id })
-
-      return res.status(httpStatusCodes.OK).send({ users: user })
+      const { user } = await getUserByIdService(user_id)
+      return res.status(httpStatusCodes.OK).send([user])
     }
 
-    const { users } = await getAllUsersService()
-
-    return res.status(httpStatusCodes.OK).send({ users })
+    const users = await getAllUsersService()
+    return res.status(httpStatusCodes.OK).send(users)
   } catch (error) {
     return httpErrorHandler({ req, res, error })
   }

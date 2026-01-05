@@ -21,11 +21,9 @@ const updatePostService = async ({ id, author_id, post_text }) => {
   })
 
   return {
-    updatedPost: {
-      id,
-      author_id,
-      post_text
-    }
+    id,
+    author_id,
+    post_text
   }
 }
 

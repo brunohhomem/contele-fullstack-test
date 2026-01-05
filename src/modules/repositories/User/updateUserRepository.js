@@ -6,9 +6,11 @@ const updateUserRepository = async ({
   user_password,
   full_name
 }) => {
-  await client('users')
+  const user_id = await client('users')
     .where({ id })
     .update({ user_email, user_password, full_name })
+
+  return { user_id }
 }
 
 module.exports = {
