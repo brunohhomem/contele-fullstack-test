@@ -17,10 +17,6 @@ definitions:
   user:
     additionalProperties: false
     type: "object"
-    required:
-      - "full_name"
-      - "user_email"
-      - "user_password"
     properties:
       id:
         type: "integer"
@@ -30,12 +26,28 @@ definitions:
         type: "string"
       user_password:
         type: "string"
+  userCreateRequest:
+    allOf:
+      - $ref: "#/definitions/user"
+    required:
+      - full_name
+      - user_email
+      - user_password
+    properties:
+      id:
+        readOnly: true
+  userResponse:
+    type: object
+    properties:
+      id:
+        type: integer
+      full_name:
+        type: string
+      user_email:
+        type: string
   post:
     additionalProperties: false
     type: "object"
-    required:
-      - "author_id"
-      - "post_text"
     properties:
       id:
         type: "integer"
@@ -43,6 +55,15 @@ definitions:
         type: "integer"
       post_text:
         type: "string"
+  postCreateRequest:
+      allOf:
+      - $ref: "#/definitions/post"
+      required:
+      - "author_id"
+      - "post_text"
+      properties:
+        id:
+          readOnly: true
 paths:
   /user:
     get:
@@ -62,7 +83,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: "#/definitions/user"
+              $ref: "#/definitions/userResponse"
     post:
       tags:
         - "Users"
@@ -74,12 +95,23 @@ paths:
           name: user
           description: create user
           schema:
-            $ref: "#/definitions/user"
+            $ref: "#/definitions/userCreateRequest"
       responses:
-        200:
-          description: "success"
+        201:
+          description: "created"
           schema:
-            $ref: "#/definitions/user"
+            $ref: "#/definitions/userResponse"
+        500:
+          description: Internal server error
+          schema:
+            type: object
+            properties:
+              type:
+                type: string
+              message:
+                type : string
+              details:
+                type : object
     put:
       tags:
         - "Users"
@@ -95,9 +127,6 @@ paths:
             type: "object"
             required:
               - "id"
-              - "full_name"
-              - "user_email"
-              - "user_password"
             properties:
               id:
                 type: "integer"
@@ -111,7 +140,18 @@ paths:
         200:
           description: "success"
           schema:
-            $ref: "#/definitions/user"
+            $ref: "#/definitions/userResponse"
+        500:
+          description: Internal server error
+          schema:
+            type: object
+            properties:
+              type:
+                type: string
+              message:
+                type : string
+              details:
+                type : object
     delete:
       tags:
         - "Users"
@@ -124,10 +164,19 @@ paths:
           type: integer
           required: true
       responses:
-        200:
-          description: "success"
+        204:
+          description: "User deleted successfully"
+        500:
+          description: Internal server error
           schema:
-            $ref: "#/definitions/user"
+            type: object
+            properties:
+              type:
+                type: string
+              message:
+                type : string
+              details:
+                type : object
   /post:
     get:
       tags:
@@ -139,7 +188,7 @@ paths:
         - name: user_id
           in: query
           type: string
-          required: false
+          required: true
       responses:
         200:
           description: "success"
@@ -147,6 +196,24 @@ paths:
             type: array
             items:
               $ref: "#/definitions/post"
+        400:
+          description: "Bad Request"
+          schema:
+            type: object
+            properties:
+              message:
+                type : string
+        500:
+          description: "Internal server error"
+          schema:
+            type: object
+            properties:
+              type:
+                type: string
+              message:
+                type : string
+              details:
+                type : object
     post:
       tags:
         - "Posts"
@@ -169,10 +236,21 @@ paths:
               author_id:
                 type: integer
       responses:
-        200:
+        201:
           description: "success"
           schema:
-            $ref: "#/definitions/post"
+            $ref: "#/definitions/postCreateRequest"
+        500:
+          description: "Internal server error"
+          schema:
+            type: object
+            properties:
+              type:
+                type: string
+              message:
+                type : string
+              details:
+                type : object
     put:
       tags:
         - "Posts"
@@ -202,6 +280,24 @@ paths:
           description: "success"
           schema:
             $ref: "#/definitions/post"
+        400:
+          description: "Bad Request"
+          schema:
+            type: object
+            properties:
+              message:
+                type : string
+        500:
+          description: "Internal server error"
+          schema:
+            type: object
+            properties:
+              type:
+                type: string
+              message:
+                type : string
+              details:
+                type : object
     delete:
       tags:
         - "Posts"
@@ -214,7 +310,16 @@ paths:
           type: integer
           required: true
       responses:
-        200:
-          description: "success"
+        204:
+          description: "Post deleted successfully"
+        500:
+          description: Internal server error
           schema:
-            $ref: "#/definitions/post"
+            type: object
+            properties:
+              type:
+                type: string
+              message:
+                type : string
+              details:
+                type : object

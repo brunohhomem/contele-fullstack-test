@@ -12,7 +12,7 @@ const deleteUserHandler = async (req, res, next) => {
       user_id
     })
 
-    return res.status(httpStatusCodes.OK).send()
+    return res.status(httpStatusCodes.NO_CONTENT).send()
   } catch (error) {
     return httpErrorHandler({ req, res, error })
   }

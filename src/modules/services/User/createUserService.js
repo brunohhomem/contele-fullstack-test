@@ -22,7 +22,9 @@ const createUserService = async user => {
   })
 
   return {
-    user_created_id: user_created
+    id: user_created.id,
+    full_name: user.full_name,
+    user_email: user.user_email
   }
 }
 

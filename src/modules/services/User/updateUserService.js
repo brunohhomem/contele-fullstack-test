@@ -19,8 +19,6 @@ const updateUserService = async ({
     throw new Error('User not found.')
   }
 
-  console.log(user_email, user.user_email)
-
   if (user_email && user_email !== user.user_email) {
     const email_exists = await getUserByEmailRepository(user_email)
 
@@ -29,14 +27,24 @@ const updateUserService = async ({
     }
   }
 
-  await updateUserRepository({
-    id,
+  const user_to_update = {
     full_name: full_name ?? user.full_name,
     user_email: user_email ?? user.user_email,
     user_password: user_password
       ? bcrypt.hashSync(user_password, salt)
       : user.user_password
+  }
+
+  await updateUserRepository({
+    id,
+    ...user_to_update
   })
+
+  return {
+    id,
+    full_name: user_to_update.full_name,
+    user_email: user_to_update.user_email
+  }
 }
 
 module.exports = {
