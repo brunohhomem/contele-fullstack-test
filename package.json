@@ -27,7 +27,8 @@
     "dev": "nodemon src/app.js",
     "db:up": "docker-compose up -d mysql",
     "db:down": "docker-compose down mysql",
-    "db:stop": "docker-compose stop mysql"
+    "db:stop": "docker-compose stop mysql",
+    "prod": "docker compose up --build"
   },
   "author": "",
   "license": "ISC"
